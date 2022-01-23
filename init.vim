@@ -54,6 +54,7 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gm <Plug>(coc-type-implementation)
 "nmap <silent> gy <Plug>(coc-type-definition)
 "nn <silent> K :call CocActionAsync('doHover')<cr>
 nmap <silent> gh :call CocLocations('ccls', '$ccls/inheritance')<CR>
