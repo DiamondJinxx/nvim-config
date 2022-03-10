@@ -26,6 +26,11 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 Plug 'scrooloose/nerdcommenter' "Smart comment
 Plug 'honza/vim-snippets'
+
+Plug 'terryma/vim-multiple-cursors'
+Plug 'leafOfTree/vim-project'
+
+Plug 'cdelledonne/vim-cmake'
 call plug#end()
 
 syntax on
@@ -39,9 +44,9 @@ set scrolloff=7
 set fileformat=unix
 set autoindent
 set autochdir
+set cursorline
 
 nnoremap ,<space> :nohlsearch<CR>
-nnoremap <C-w> :bd <CR>
 " NerdTree
 nnoremap <F12> :NERDTreeToggle<CR>
 nnoremap <C-f> :NERDTreeFind
@@ -96,14 +101,15 @@ nnoremap <leader>fp :call FindInProject()<CR>
 let mapleader = ';'
 
 lua << EOF
+local telescope_actions = require('telescope.actions')
 require('telescope').setup{
 defaults = {
         mappings = {
                 i = {
-                        ["<C-j>"] = require('telescope.actions').move_selection_next,
-                        ["<C-k>"] = require('telescope.actions').move_selection_previous,
-                        ["<C-n>"] = require('telescope.actions').move_selection_better,
-                        ["<C-p>"] = require('telescope.actions').move_selection_worse,
+                        ["<C-j>"] = telescope_actions.move_selection_next,
+                        ["<C-k>"] = telescope_actions.move_selection_previous,
+                        ["<C-n>"] = telescope_actions.move_selection_better,
+                        ["<C-p>"] = telescope_actions.move_selection_worse,
 
                         } 
                 }
@@ -125,6 +131,7 @@ nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>gf <cmd>Telescope git_files<cr>
 nnoremap <leader>gt <cmd>Telescope git_status<cr>
 nnoremap <leader>gc <cmd>Telescope git_commits<cr>
+nnoremap <leader>gb <cmd>Telescope git_branches<cr>
 " Settings for comments
 vmap ++ <plug>NERDCommenterToggle
 nmap ++ <plug>NERDCommenterToggle
@@ -142,3 +149,10 @@ let g:ctrlp_working_path_mode = 'ra'
 
 let g:ag = {}
 let g:ag.working_path_mpde = 'r'
+
+
+let g:vim_project_config = '~/BMW/ddad/.vim'
+" options: 'ask'(default), 'always', 'no'
+let g:vim_project_auto_detect = 'ask'
+
+call project#begin()
