@@ -155,4 +155,9 @@ let g:vim_project_config = '~/BMW/ddad/.vim'
 " options: 'ask'(default), 'always', 'no'
 let g:vim_project_auto_detect = 'ask'
 
+"run code
+autocmd FileType python map <buffer> <F9> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
+autocmd FileType python imap <buffer> <F9> <esc>:w<CR>:exec '!python3' shellescape(@%, 1)<CR>
+
+autocmd FileType htmldjango imap <buffer> set tabstop=2
 call project#begin()
