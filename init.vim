@@ -31,14 +31,23 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'leafOfTree/vim-project'
 
 Plug 'cdelledonne/vim-cmake'
+
+Plug 'nvim-lua/plenary.nvim'
+Plug 'folke/todo-comments.nvim'
+
+Plug 'chrisbra/csv.vim'
 call plug#end()
 
 syntax on
 set background=dark
 colorscheme gruvbox
 set number
-set expandtab
 set tabstop=4
+set shiftwidth=4
+set smarttab
+set expandtab
+set smartindent
+
 set noswapfile
 set scrolloff=7
 set fileformat=unix
@@ -46,9 +55,10 @@ set autoindent
 set autochdir
 set cursorline
 
+let mapleader = ';'
 nnoremap ,<space> :nohlsearch<CR>
 " NerdTree
-nnoremap <F12> :NERDTreeToggle<CR>
+nnoremap <leader>ft :NERDTreeToggle<CR>
 nnoremap <C-f> :NERDTreeFind
 
 " Use `[g` and `]g` to navigate diagnostics
@@ -61,7 +71,7 @@ nmap <silent> gr <Plug>(coc-references)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gm <Plug>(coc-type-implementation)
 "nmap <silent> gy <Plug>(coc-type-definition)
-"nn <silent> K :call CocActionAsync('doHover')<cr>
+nn <silent> gk :call CocActionAsync('doHover')<cr>
 nmap <silent> gh :call CocLocations('ccls', '$ccls/inheritance')<CR>
 
 
@@ -98,7 +108,6 @@ function! FindInProject()
         execute(':Ack '.l:file.g:project_dir)
 endfunction
 nnoremap <leader>fp :call FindInProject()<CR>
-let mapleader = ';'
 
 lua << EOF
 local telescope_actions = require('telescope.actions')
@@ -110,8 +119,13 @@ defaults = {
                         ["<C-k>"] = telescope_actions.move_selection_previous,
                         ["<C-n>"] = telescope_actions.move_selection_better,
                         ["<C-p>"] = telescope_actions.move_selection_worse,
+                        ["<C-d>"] = telescope_actions.delete_buffer,
 
                         } 
+                },
+            n = {
+
+                        ["<C-d>"] = telescope_actions.delete_buffer,
                 }
         },
 pickers = {
@@ -122,6 +136,12 @@ pickers = {
                       cwd = '/home/qxz20fg/BMW/ddad',
                 }
         },
+}
+
+require("todo-comments").setup {
+  keywords = {
+    WARN = { icon = " ", color = "warning", alt = { "WARN", "XXX" } },
+  },
 }
 EOF
 
@@ -135,6 +155,7 @@ nnoremap <leader>gb <cmd>Telescope git_branches<cr>
 " Settings for comments
 vmap ++ <plug>NERDCommenterToggle
 nmap ++ <plug>NERDCommenterToggle
+
 
 "Vim Snippets1
 inoremap <silent><expr> <TAB>
