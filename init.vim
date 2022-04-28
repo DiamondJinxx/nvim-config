@@ -13,6 +13,10 @@ Plug 'albfan/ag.vim'
 " (The latter must be installed before it can be used.)
 Plug 'google/vim-maktaba'
 Plug 'bazelbuild/vim-bazel'
+Plug 'google/vim-codefmt'
+" Also add Glaive, which is used to configure codefmt's maktaba flags. See
+" `:help :Glaive` for usage.
+Plug 'google/vim-glaive'
 "plugins for file search
 if has('nvim')
   Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' } " can commons for ask,ag,ripgrep and other serchers
@@ -126,7 +130,11 @@ defaults = {
             n = {
 
                         ["<C-d>"] = telescope_actions.delete_buffer,
-                }
+                },
+            i = {
+
+                        ["<C-d>"] = telescope_actions.delete_buffer,
+                },
         },
 pickers = {
         find_files = {
@@ -181,4 +189,15 @@ autocmd FileType python map <buffer> <F9> :w<CR>:exec '!python3' shellescape(@%,
 autocmd FileType python imap <buffer> <F9> <esc>:w<CR>:exec '!python3' shellescape(@%, 1)<CR>
 
 autocmd FileType htmldjango imap <buffer> set tabstop=2
+
+augroup autoformat_settings
+  autocmd FileType bzl AutoFormatBuffer buildifier
+  autocmd FileType c,cpp,proto,javascript,arduino AutoFormatBuffer clang-format
+  autocmd FileType go AutoFormatBuffer gofmt
+  autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
+  autocmd FileType java AutoFormatBuffer google-java-format
+  autocmd FileType python AutoFormatBuffer yapf
+  " Alternative: autocmd FileType python AutoFormatBuffer autopep8
+augroup END
+
 call project#begin()
