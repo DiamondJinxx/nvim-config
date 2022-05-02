@@ -58,6 +58,7 @@ set fileformat=unix
 set autoindent
 set autochdir
 set cursorline
+set mouse=a
 
 let mapleader = ';'
 nnoremap ,<space> :nohlsearch<CR>
