@@ -29,7 +29,7 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 Plug 'scrooloose/nerdcommenter' "Smart comment
-Plug 'honza/vim-snippets'
+Plug 'honza/vim-snippets' " Install coc-snippets. Do I realy need vim-snippets? only for customization snippets
 
 Plug 'terryma/vim-multiple-cursors'
 Plug 'leafOfTree/vim-project'
@@ -138,10 +138,10 @@ defaults = {
         },
 pickers = {
         find_files = {
-                      cwd = '/home/qxz20fg/BMW/ddad',
+                      cwd = '/home/life',
                 },
         live_grep = {
-                      cwd = '/home/qxz20fg/BMW/ddad',
+                      cwd = '/home/life',
                 }
         },
 }
@@ -171,7 +171,7 @@ inoremap <silent><expr> <TAB>
       \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
-
+"let g:UltiSnipsExpandTrigger="<tab>"
 
 let g:ctrlp_root_markers = ['ddad']
 let g:ctrlp_working_path_mode = 'ra'
@@ -180,7 +180,7 @@ let g:ag = {}
 let g:ag.working_path_mpde = 'r'
 
 
-let g:vim_project_config = '~/BMW/ddad/.vim'
+let g:vim_project_config = '~/projects/.vim'
 " options: 'ask'(default), 'always', 'no'
 let g:vim_project_auto_detect = 'ask'
 
