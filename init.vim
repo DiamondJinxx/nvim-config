@@ -25,7 +25,7 @@ else
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
-Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-lua/plenary.nvim' "library with lua functions for vim
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 Plug 'scrooloose/nerdcommenter' "Smart comment
@@ -137,14 +137,6 @@ defaults = {
                         ["<C-d>"] = telescope_actions.delete_buffer,
                 },
         },
-pickers = {
-        find_files = {
-                      cwd = '/home/life',
-                },
-        live_grep = {
-                      cwd = '/home/life',
-                }
-        },
 }
 
 require("todo-comments").setup {
@@ -164,6 +156,9 @@ nnoremap <leader>gb <cmd>Telescope git_branches<cr>
 " Settings for comments
 vmap ++ <plug>NERDCommenterToggle
 nmap ++ <plug>NERDCommenterToggle
+
+nnoremap <leader>pl <cmd>ProjectList<cr>
+
 
 
 "Vim Snippets1
