@@ -31,19 +31,21 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend upda
 Plug 'scrooloose/nerdcommenter' "Smart comment
 Plug 'honza/vim-snippets' " Install coc-snippets. Do I realy need vim-snippets? only for customization snippets
 
-Plug 'terryma/vim-multiple-cursors'
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'leafOfTree/vim-project'
 
 Plug 'cdelledonne/vim-cmake'
 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'folke/todo-comments.nvim'
+Plug 'ryanoasis/vim-devicons'
+Plug 'kyazdani42/nvim-web-devicons'
 
 Plug 'chrisbra/csv.vim'
 call plug#end()
 
 syntax on
-set background=dark
+"set background=dark
 colorscheme gruvbox
 set number
 set tabstop=4
@@ -81,21 +83,23 @@ nmap <silent> gh :call CocLocations('ccls', '$ccls/inheritance')<CR>
 
 
 " local function
-let g:project_dir = "/home/qxz20fg/BMW/"
-let g:config_file = "/home/qxz20fg/.config/init.vim"
-"
 inoremap <silent><expr> <TAB>
-        \ pumvisible() ? "\<C-n>" :
-        \ <SID>check_back_space() ? "\<TAB>" : 
-        \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-P>" : "\<C-h>"
-inoremap <expr><C-k> pumvisible() ? "\<C-p>" : "\<C-h>"
-inoremap <expr><C-j> pumvisible() ? "\<C-n>" : "\<C-h>"
+      \ coc#pum#visible() ? coc#pum#confirm():
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
 
-function! s:check_back_space() abort
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+"inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              "\: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+"
+inoremap <expr><C-k> coc#pum#visible() ? coc#pum#prev(1): "\<C-h>"
+inoremap <expr><C-j> coc#pum#visible() ? coc#pum#next(1): "\<C-h>"
+
+function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+
 
 " Use <c-space> to trigger completion -- I like it
 if has('nvim')
@@ -106,13 +110,6 @@ endif
 
 
 "Definet Settings
-"Project navigation
-let g:project_dir = '/home/qxz20fg/BMW/ddad'
-function! FindInProject()
-        let l:file = input("File: ")
-        execute(':Ack '.l:file.g:project_dir)
-endfunction
-nnoremap <leader>fp :call FindInProject()<CR>
 
 lua << EOF
 local telescope_actions = require('telescope.actions')
@@ -140,19 +137,26 @@ defaults = {
 }
 
 require("todo-comments").setup {
-  keywords = {
-    WARN = { icon = " ", color = "warning", alt = { "WARN", "XXX" } },
-  },
+--  keywords = {
+--    WARN = { icon = " ", color = "warning", alt = { "WARN", "XXX" } },
+--  },
 }
+
 EOF
 
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>sb <cmd>Telescope current_buffer_fuzzy_find<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>gf <cmd>Telescope git_files<cr>
 nnoremap <leader>gt <cmd>Telescope git_status<cr>
 nnoremap <leader>gc <cmd>Telescope git_commits<cr>
 nnoremap <leader>gb <cmd>Telescope git_branches<cr>
+nnoremap <leader>gr <cmd>Telescope lsp_references<cr>
+nnoremap <leader>ts <cmd>Telescope treesitter<cr>
+
+
+
 " Settings for comments
 vmap ++ <plug>NERDCommenterToggle
 nmap ++ <plug>NERDCommenterToggle
@@ -160,26 +164,36 @@ nmap ++ <plug>NERDCommenterToggle
 nnoremap <leader>pl <cmd>ProjectList<cr>
 
 
-
-"Vim Snippets1
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-"let g:UltiSnipsExpandTrigger="<tab>"
-
-let g:ctrlp_root_markers = ['ddad']
-let g:ctrlp_working_path_mode = 'ra'
-
 let g:ag = {}
 let g:ag.working_path_mpde = 'r'
 
 
-let g:vim_project_config = '~/projects/.vim'
 " options: 'ask'(default), 'always', 'no'
-let g:vim_project_auto_detect = 'ask'
-
+let g:vim_project_config = {
+            \'config_home': '~/.vim/vim-project-config',
+            \'auto_detect': 'ask',
+            \'auto_detect_file': ['.git'],
+            \   }
+"let g:vim_project_config = {
+      "\'config_home':                   '~/.vim/vim-project-config',
+      "\'project_base':                  ['~'],
+      "\'use_session':                   0,
+      "\'open_root_when_use_session':    0,
+      "\'check_branch_when_use_session': 0,
+      "\'project_root':                  './',
+      "\'auto_load_on_start':            0,
+      "\'include':                       ['./'],
+      "\'exclude':                       ['.git', 'node_modules', '.DS_Store'],
+      "\'search_include':                [],
+      "\'find_in_files_include':         [],
+      "\'search_exclude':                [],
+      "\'find_in_files_exclude':         [],
+      "\'auto_detect':                   'ask',
+      "\'auto_detect_file':              ['.git', '.svn'],
+      "\'project_views':                 [],
+      "\'file_mappings':                 {},
+      "\'debug':                         0,
+      "\}
 "run code
 autocmd FileType python map <buffer> <F9> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
 autocmd FileType python imap <buffer> <F9> <esc>:w<CR>:exec '!python3' shellescape(@%, 1)<CR>
