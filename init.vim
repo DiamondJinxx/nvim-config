@@ -45,12 +45,12 @@ Plug 'chrisbra/csv.vim'
 call plug#end()
 
 syntax on
-"set background=dark
+set background=dark "light
 colorscheme gruvbox
 set number
 set tabstop=4
-set shiftwidth=4
-set smarttab
+set shiftwidth=4 
+set smarttab 
 set expandtab
 set smartindent
 
@@ -214,8 +214,9 @@ autocmd FileType htmldjango imap <buffer> set tabstop=2
 
 augroup autoformat_settings
   autocmd FileType bzl AutoFormatBuffer buildifier
-  autocmd FileType c,cpp,proto,javascript,arduino AutoFormatBuffer clang-format
+  autocmd FileType c,cpp,proto,arduino AutoFormatBuffer clang-format
   autocmd FileType go AutoFormatBuffer gofmt
+  autocmd FileType javascript AutoFormatBuffer prettier
   autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
   autocmd FileType java AutoFormatBuffer google-java-format
   autocmd FileType python AutoFormatBuffer yapf
