@@ -2,6 +2,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'preservim/nerdtree'
+" lsp for c++ https://github.com/MaskRay/ccls
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'MattesGroeger/vim-bookmarks'
 Plug 'jiangmiao/auto-pairs'
@@ -12,7 +13,7 @@ Plug 'albfan/ag.vim'
 " Add maktaba and bazel to the runtimepath.
 " (The latter must be installed before it can be used.)
 Plug 'google/vim-maktaba'
-Plug 'bazelbuild/vim-bazel'
+"Plug 'bazelbuild/vim-bazel'
 Plug 'google/vim-codefmt'
 " Also add Glaive, which is used to configure codefmt's maktaba flags. See
 " `:help :Glaive` for usage.
@@ -40,8 +41,11 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'folke/todo-comments.nvim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'kyazdani42/nvim-web-devicons'
-
 Plug 'chrisbra/csv.vim'
+Plug 'preservim/tagbar' " simple file structure, need ctags
+Plug 'lewis6991/gitsigns.nvim' " inline and chunks git blame
+Plug 'tpope/vim-fugitive' " git comands from vim
+Plug 'lukas-reineke/indent-blankline.nvim' " set sign for blankline
 call plug#end()
 
 syntax on
@@ -60,6 +64,7 @@ set fileformat=unix
 set autoindent
 set autochdir
 set cursorline
+set colorcolumn=100
 set mouse=a
 
 let mapleader = ';'
@@ -121,8 +126,6 @@ else
 endif
 
 
-"Definet Settings
-
 lua << EOF
 local telescope_actions = require('telescope.actions')
 require('telescope').setup{
@@ -148,10 +151,71 @@ defaults = {
         },
 }
 
+-- Enable `folke/todo-comments.nvim`
+-- See `:help todo-comments.nvim.txt`
 require("todo-comments").setup {
 --  keywords = {
 --    WARN = { icon = " ", color = "warning", alt = { "WARN", "XXX" } },
 --  },
+}
+
+-- Enable `lukas-reineke/indent-blankline.nvim`
+-- See `:help indent_blankline.txt`
+require('indent_blankline').setup {
+  char = '┊',
+  show_trailing_blankline_indent = false,
+}
+
+-- Gitsigns
+-- See `:help gitsigns.txt`
+require('gitsigns').setup {
+  signs = {
+    add = { text = '+' },
+    change = { text = '~' },
+    delete = { text = '_' },
+    topdelete = { text = '‾' },
+    changedelete = { text = '~' },
+  },
+  current_line_blame = false,
+  on_attach = function(bufnr)
+    local gs = package.loaded.gitsigns
+
+    local function map(mode, l, r, opts)
+      opts = opts or {}
+      opts.buffer = bufnr
+      vim.keymap.set(mode, l, r, opts)
+    end
+
+    -- Navigation
+    map('n', ']c', function()
+      if vim.wo.diff then return ']c' end
+      vim.schedule(function() gs.next_hunk() end)
+      return '<Ignore>'
+    end, {expr=true})
+
+    map('n', '[c', function()
+      if vim.wo.diff then return '[c' end
+      vim.schedule(function() gs.prev_hunk() end)
+      return '<Ignore>'
+    end, {expr=true})
+
+    -- Actions
+    map({'n', 'v'}, '<leader>hs', ':Gitsigns stage_hunk<CR>')
+    map({'n', 'v'}, '<leader>hr', ':Gitsigns reset_hunk<CR>')
+    map('n', '<leader>hS', gs.stage_buffer)
+    map('n', '<leader>ha', gs.stage_hunk)
+    map('n', '<leader>hu', gs.undo_stage_hunk)
+    map('n', '<leader>hR', gs.reset_buffer)
+    map('n', '<leader>hp', gs.preview_hunk)
+    map('n', '<leader>hb', function() gs.blame_line{full=true} end)
+    map('n', '<leader>tb', gs.toggle_current_line_blame)
+    map('n', '<leader>hd', gs.diffthis)
+    map('n', '<leader>hD', function() gs.diffthis('~') end)
+    map('n', '<leader>td', gs.toggle_deleted)
+
+    -- Text object
+    map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>')
+  end
 }
 
 EOF
@@ -167,9 +231,10 @@ nnoremap <leader>gb <cmd>Telescope git_branches<cr>
 nnoremap <leader>gr <cmd>Telescope lsp_references<cr>
 nnoremap <leader>ts <cmd>Telescope treesitter<cr>
 
+"Tagbar
+nnoremap <F8> :TagbarToggle<CR>
 
-
-" Settings for comments
+"Settings for comments
 vmap ++ <plug>NERDCommenterToggle
 nmap ++ <plug>NERDCommenterToggle
 
@@ -223,4 +288,4 @@ augroup autoformat_settings
   " Alternative: autocmd FileType python AutoFormatBuffer autopep8
 augroup END
 
-call project#begin()
+"call project#begin()
