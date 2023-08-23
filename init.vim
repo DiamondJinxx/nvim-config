@@ -38,7 +38,11 @@ Plug 'leafOfTree/vim-project'
 Plug 'cdelledonne/vim-cmake'
 
 Plug 'nvim-lua/plenary.nvim'
+Plug 'rcarriga/nvim-notify'
+Plug 'MunifTanjim/nui.nvim'
+Plug 'folke/noice.nvim'
 Plug 'folke/todo-comments.nvim'
+Plug 'folke/trouble.nvim'
 Plug 'ryanoasis/vim-devicons'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'chrisbra/csv.vim'
@@ -157,6 +161,10 @@ require("todo-comments").setup {
 --  keywords = {
 --    WARN = { icon = " ", color = "warning", alt = { "WARN", "XXX" } },
 --  },
+}
+require("trouble").setup {
+}
+require("noice").setup {
 }
 
 -- Enable `lukas-reineke/indent-blankline.nvim`
