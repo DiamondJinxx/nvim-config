@@ -8,7 +8,7 @@ Plug 'MattesGroeger/vim-bookmarks'
 Plug 'jiangmiao/auto-pairs'
 Plug 'mileszs/ack.vim'
 Plug 'ctrlpvim/ctrlp.vim' " fuzzy find files
-Plug 'albfan/ag.vim'
+"Plug 'albfan/ag.vim'
 " Bazel plugin settings
 " Add maktaba and bazel to the runtimepath.
 " (The latter must be installed before it can be used.)
@@ -50,6 +50,9 @@ Plug 'preservim/tagbar' " simple file structure, need ctags
 Plug 'lewis6991/gitsigns.nvim' " inline and chunks git blame
 Plug 'tpope/vim-fugitive' " git comands from vim
 Plug 'lukas-reineke/indent-blankline.nvim' " set sign for blankline
+Plug 'antoinemadec/FixCursorHold.nvim' " runing tests 
+Plug 'nvim-neotest/neotest'
+Plug 'nvim-neotest/neotest-python'
 call plug#end()
 
 syntax on
@@ -73,6 +76,8 @@ set mouse=a
 
 let mapleader = ';'
 nnoremap ,<space> :nohlsearch<CR>
+nmap <leader>tc :tabclose<CR>
+nmap <leader>tt :tabnew
 " NerdTree
 nnoremap <leader>ft :NERDTreeToggle<CR>
 nnoremap <C-f> :NERDTreeFind
@@ -164,8 +169,8 @@ require("todo-comments").setup {
 }
 require("trouble").setup {
 }
-require("noice").setup {
-}
+--require("noice").setup {
+--}
 
 -- Enable `lukas-reineke/indent-blankline.nvim`
 -- See `:help indent_blankline.txt`
@@ -226,6 +231,12 @@ require('gitsigns').setup {
   end
 }
 
+-- Neotest
+require('neotest').setup{
+    adapters = {
+        require('neotest-python')
+    }
+}
 EOF
 
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
@@ -282,6 +293,8 @@ let g:vim_project_config = {
 "run code
 autocmd FileType python map <buffer> <F9> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
 autocmd FileType python imap <buffer> <F9> <esc>:w<CR>:exec '!python3' shellescape(@%, 1)<CR>
+autocmd FileType python imap <buffer> <F7> <esc>:w<CR>:exec '!pytest' shellescape(@%, 1)<CR>
+autocmd FileType python map <buffer> <F7> <esc>:w<CR>:exec '!pytest' shellescape(@%, 1)<CR>
 
 autocmd FileType htmldjango imap <buffer> set tabstop=2
 
@@ -292,8 +305,8 @@ augroup autoformat_settings
   autocmd FileType javascript AutoFormatBuffer prettier
   autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
   autocmd FileType java AutoFormatBuffer google-java-format
-  autocmd FileType python AutoFormatBuffer yapf
-  " Alternative: autocmd FileType python AutoFormatBuffer autopep8
+  "autocmd FileType python AutoFormatBuffer autopep8
+  "autocmd FileType python AutoFormatBuffer yapf
 augroup END
 
 "call project#begin()

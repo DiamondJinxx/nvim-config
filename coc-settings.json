@@ -14,5 +14,6 @@
       }
     }
   },
-  "sql.database": "postgresql"
+  "sql.database": "postgresql",
+  "snippets.ultisnips.pythonPrompt": false
 }
