@@ -1,5 +1,7 @@
 call plug#begin('~/.vim/plugged')
+Plug 'tjdevries/colorbuddy.nvim'
 Plug 'morhetz/gruvbox'
+Plug 'svrana/neosolarized.nvim'
 Plug 'vim-airline/vim-airline'
 Plug 'preservim/nerdtree'
 " lsp for c++ https://github.com/MaskRay/ccls
@@ -237,6 +239,13 @@ require('neotest').setup{
         require('neotest-python')
     }
 }
+
+"require('neosolarized').setup({
+    "comment_italics = true,
+    "background_set = false,
+"})
+
+
 EOF
 
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
@@ -305,7 +314,7 @@ augroup autoformat_settings
   autocmd FileType javascript AutoFormatBuffer prettier
   autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
   autocmd FileType java AutoFormatBuffer google-java-format
-  "autocmd FileType python AutoFormatBuffer autopep8
+3  "autocmd FileType python AutoFormatBuffer autopep8
   "autocmd FileType python AutoFormatBuffer yapf
 augroup END
 
