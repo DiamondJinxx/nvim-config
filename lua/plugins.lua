@@ -14,9 +14,15 @@ packer.startup(function(use)
         requires = { 'tjdevries/colorbuddy.nvim' }
     }
     use 'hoob3rt/lualine.nvim' -- Status line
+    use { 
+         'neoclide/coc.nvim',
+         branch = 'release',
+         requires = { 'airblade/vim-rooter' },
+         run = ':CocInstall coc-pyright',
 
-    use { 'neoclide/coc.nvim' , run = ':CocInstall coc-pyright' }
-    -- use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+     }
+ 
+   -- use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
 
 
 

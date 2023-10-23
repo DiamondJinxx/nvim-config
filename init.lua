@@ -19,3 +19,6 @@ end
 if is_win then
     require('windows')
 end
+
+vim.api.nvim_set_var('mapleader', ';')
+
