@@ -37,6 +37,12 @@ packer.startup(function(use)
     use 'windwp/nvim-autopairs'
  
     use { 'nvim-treesitter/nvim-treesitter' }
+    use { 
+        'numToStr/Comment.nvim',
+        requires = {
+          'JoosepAlviste/nvim-ts-context-commentstring'
+        }
+    }
 
 
 
