@@ -1,6 +1,5 @@
 local status, packer = pcall(require, 'packer')
-if (not status) then
-    print("Packer is not installed")
+if (not status) then print("Packer is not installed")
     return
 end
 
@@ -43,6 +42,7 @@ packer.startup(function(use)
           'JoosepAlviste/nvim-ts-context-commentstring'
         }
     }
+    -- use 'simrat39/symbols-outline.nvim' -- not currently work with Coc
 
 
 

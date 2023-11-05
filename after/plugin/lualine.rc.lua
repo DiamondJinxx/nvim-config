@@ -1,6 +1,13 @@
 local status, lualine = pcall(require, 'lualine')
 if (not status) then return end
 
+local function symbol_line()
+  local curwin = vim.g.statusline_winid or 0
+  local curbuf = vim.api.nvim_win_get_buf(curwin)
+  local ok, line = pcall(vim.api.nvim_buf_get_var, curbuf, 'coc_symbol_line')
+  return ok and line or ''
+end
+
 lualine.setup{
     options = {
         icons_enabled = true,
@@ -21,7 +28,10 @@ lualine.setup{
          lualine_x = {
              { 'diagnostincs', sources = { 'nvim_diagnostic', 'coc' }, symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' } },
          },
-         lualine_y = { 'progress' },
+         lualine_y = { 
+            symbol_line 
+            -- 'progress'
+         },
          lualine_z = { 'location' },
      },
      inactive_sections = {

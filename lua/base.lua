@@ -31,7 +31,8 @@ vim.opt.si = true -- Smart indent
 vim.opt.wrap = false
 vim.opt.backspace = 'start,eol,indent'
 vim.opt.path:append {'**'} -- finding files - search down into subfolders
-
+vim.opt.colorcolumn = '120'
+vim.opt.autoread = true
 
 -- Undercurl, not work in iTerm2
 vim.cmd([[let &t_Cs = "\e[4:3m"]])
@@ -42,3 +43,8 @@ vim.api.nvim_create_autocmd("InsertLeave", {
    pattern = '*',
    command = "set nopaste"
 })
+
+
+vim.api.nvim_set_var('mapleader', ';')
+vim.api.nvim_set_var('noswapfile', '')
+

@@ -18,3 +18,4 @@ keymap.set('n', '<C-w><up>', '<C-w>+')
 keymap.set('n', '<C-w><down>', '<C-w>-')
 
 keymap.set('n', ',<space>', ':nohlsearch<Return>')
+keymap.set('n', '<leader>so', ':CocOutline<Return>')

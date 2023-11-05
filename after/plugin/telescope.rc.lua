@@ -4,6 +4,10 @@ if (not status) then
     print('telescope not installed')
 end
 
+local function telescope_buffer_dir()
+  return vim.fn.expand('%:p:h')
+end
+
 local actions = require('telescope.actions')
 
 local fb_actions = require "telescope".extensions.file_browser.actions
@@ -51,6 +55,7 @@ telescope.setup{
     
 }
 local keymap = vim.keymap
+local builtin = require('telescope.builtin')
 
 keymap.set('n', '<leader>ff', ':Telescope find_files<Return>')
 keymap.set('n', '<leader>rr', ':Telescope resume<Return>')
@@ -66,18 +71,21 @@ keymap.set('n', '<leader>gb', ':Telescope git_branches<Return>')
 keymap.set('n', '<leader>gr', ':Telescope lsp_references<Return>')
 keymap.set('n', '<leader>ts', ':Telescope treesitter<Return>')
 
+vim.keymap.set('n', '<leader>st', builtin.lsp_document_symbols, {})
+
 telescope.load_extension("file_browser")
 
 
 vim.keymap.set("n", "<leader>ft", function()
   telescope.extensions.file_browser.file_browser({
     path = "%:p:h",
-    --cwd = telescope_buffer_dir(),
+    cwd = telescope_buffer_dir(),
     respect_gitignore = false,
     hidden = true,
     grouped = true,
     previewer = false,
     initial_mode = "normal",
+    auto_depth = true,
     layout_config = { height = 40 }
   })
 end)
