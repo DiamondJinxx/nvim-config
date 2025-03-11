@@ -10,8 +10,8 @@ keymap.set("n", "<tab>", ":tabnext<Return>", opts)
 keymap.set("n", "<s-tab>", ":tabprev<Return>", opts)
 
 -- Spliting windows
-keymap.set("n", "ss", ":split<Return><C-w>w", { silent = true })
-keymap.set("n", "sv", ":vsplit<Return><C-w>w", { silent = true })
+keymap.set("n", "ss", ":split<Return>", { silent = true })
+keymap.set("n", "sv", ":vsplit<Return>", { silent = true })
 
 -- Diagnostics
 keymap.set("n", "<C-]>", function()
