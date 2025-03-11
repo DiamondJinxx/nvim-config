@@ -50,3 +50,6 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 vim.api.nvim_set_var("mapleader", ";")
 vim.api.nvim_set_var("noswapfile", "true")
 vim.api.nvim_win_set_config(0, { border = "rounded" }) -- rounded popups border
+
+vim.g.lazyvim_picker = "telescope"
+vim.g.lazyvim_cmp = "blink.cmp"
